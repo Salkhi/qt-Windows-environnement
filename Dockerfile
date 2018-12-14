@@ -1,7 +1,6 @@
 FROM microsoft/windowsservercore:10.0.14393.1884
-LABEL Description="Windows Server Core development environment for Synaps with Qt 5.11.1, Chocolatey and various dependencies"
+LABEL Description="Windows development environment for Synaps with Qt 5.11.1 using msvc2017, Chocolatey and various dependencies for optional configuration"
 
-# Disable crash dialog for release-mode runtimes
 RUN reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
 RUN reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v DontShowUI /t REG_DWORD /d 1 /f
 
@@ -18,13 +17,12 @@ RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
     Remove-Item C:\qtifwsilent.qs -Force
 ENV QTDIR64 C:\\Qt\\Qt5.11.1\\5.11.1\\msvc2017_64
 RUN dir "%QTDIR64%" && dir "%QTDIR64%\bin\Qt5Script.dll"
-
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command \
     $Env:chocolateyVersion = '0.10.8' ; \
     $Env:chocolateyUseWindowsCompression = 'false' ; \
     "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 RUN choco install -y python2 --version 2.7.14 && refreshenv && python --version && pip --version
-RUN choco install -y qbs --version 1.9.1 && qbs --version
+RUN choco install -y qbs --version 1.9.1 && qbs --version 
 RUN choco install -y unzip --version 6.0 && unzip -v
-RUN choco install -y visualcpp-build-tools && dir "%PROGRAMFILES(X86)%\Microsoft Visual C++ Build Tools"
+RUN choco install -y visualcpp-build-tools
 RUN choco install -y zip --version 3.0 && zip -v
