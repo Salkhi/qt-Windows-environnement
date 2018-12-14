@@ -1,5 +1,5 @@
 FROM microsoft/windowsservercore:10.0.14393.1884
-LABEL Description="Windows development environment for Synaps with Qt 5.11.1 using msvc2017, Chocolatey and various dependencies for optional configuration"
+LABEL Description="Windows development environment for Synaps with Qt 5.11.1 using msvc2017 compiler, Chocolatey and various dependencies for optional configuration"
 
 RUN reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
 RUN reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v DontShowUI /t REG_DWORD /d 1 /f
